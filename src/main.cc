@@ -29,5 +29,7 @@ main(int argc, char *argv[])
 
     FkParser parser(s);
 
+    parser.debug_description(0);
+
     return 0;
 }

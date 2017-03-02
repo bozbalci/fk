@@ -11,6 +11,7 @@
 #include <llvm/IR/Module.h>
 #include <llvm/IR/IRBuilder.h>
 
+#include <iostream>
 #include <vector>
 
 class LoopExpr : public FkExpr
@@ -22,6 +23,7 @@ class LoopExpr : public FkExpr
         ~LoopExpr() {}
         LoopExpr(std::vector<FkExpr *> &exprs) : _exprs(exprs) {}
         void generate_code(llvm::Module *M, llvm::IRBuilder<> &B);
+        void debug_description(int level);
 };
 
 #endif // LOOPEXPR_H

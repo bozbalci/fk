@@ -11,6 +11,8 @@
 #include <llvm/IR/Module.h>
 #include <llvm/IR/IRBuilder.h>
 
+#include <iostream>
+
 class IncrementExpr : public FkExpr
 {
     protected:
@@ -20,6 +22,7 @@ class IncrementExpr : public FkExpr
         ~IncrementExpr() {}
         IncrementExpr(int increment) : _increment(increment) {}
         void generate_code(llvm::Module *M, llvm::IRBuilder<> &B);
+        void debug_description(int level);
 };
 
 #endif // INCEXPR_H

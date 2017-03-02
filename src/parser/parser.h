@@ -27,6 +27,7 @@ class FkParser
             _program_data(source), _index(0) { parse(_exprs); }
 
         void generate_code(llvm::Module *M, llvm::IRBuilder<> &B);
+        void debug_description(int level);
 };
 
 #endif // PARSER_H

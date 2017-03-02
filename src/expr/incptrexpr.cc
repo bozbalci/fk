@@ -10,3 +10,10 @@ IncrementPtrExpr::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
 {
     // TODO: Implement me!
 }
+
+void
+IncrementPtrExpr::debug_description(int level)
+{
+    std::cout.width(level);
+    std::cout << "IncrementPtrExpr (" << _increment << ")" << std::endl;
+}

@@ -81,3 +81,13 @@ FkParser::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
         expr->generate_code(M, B);
     }
 }
+
+void
+FkParser::debug_description(int level)
+{
+    for (auto &expr : _exprs)
+    {
+        std::cout << std::string(level * 2, ' ');
+        expr->debug_description(level + 1);
+    }
+}
