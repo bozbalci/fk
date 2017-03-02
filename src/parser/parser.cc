@@ -22,6 +22,8 @@ FkParser::parse(std::vector<FkExpr *> &exprs)
 void
 FkParser::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
 {
+    FkExprGlobals::instance()->generate_code(M, B);
+
     for (auto &expr : _exprs)
     {
         expr->generate_code(M, B);
