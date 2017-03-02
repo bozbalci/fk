@@ -11,7 +11,8 @@ FkExprGlobals *FkExprGlobals::_instance = nullptr;
 llvm::GlobalVariable *FkExprGlobals::__fk_index_ptr = nullptr;
 llvm::GlobalVariable *FkExprGlobals::__fk_cells_ptr = nullptr;
 
-FkExprGlobals* FkExprGlobals::instance()
+FkExprGlobals*
+FkExprGlobals::instance()
 {
     if (!FkExprGlobals::_instance)
     {
@@ -21,17 +22,20 @@ FkExprGlobals* FkExprGlobals::instance()
     return FkExprGlobals::_instance;
 }
 
-llvm::GlobalVariable* FkExprGlobals::get_index_ptr()
+llvm::GlobalVariable*
+FkExprGlobals::get_index_ptr()
 {
     return __fk_index_ptr;
 }
 
-llvm::GlobalVariable* FkExprGlobals::get_cells_ptr()
+llvm::GlobalVariable*
+FkExprGlobals::get_cells_ptr()
 {
     return __fk_cells_ptr;
 }
 
-void FkExprGlobals::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
+void
+FkExprGlobals::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
 {
     llvm::LLVMContext &context = M->getContext();
 
