@@ -23,7 +23,7 @@ class FkParser
         void parse(std::vector<FkExpr *> &exprs);
 
     public:
-        Parser(std::string source) :
+        FkParser(std::string source) :
             _program_data(source), _index(0) { parse(_exprs); }
 
         void generate_code(llvm::Module *M, llvm::IRBuilder<> &B);
