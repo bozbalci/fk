@@ -15,7 +15,7 @@ class FkExpr
 {
     public:
         virtual ~FkExpr() {}
-        virtual void generate_code(llvm::Module *M, llvm::IRBuilder<> &B);
+        virtual void generate_code(llvm::Module *M, llvm::IRBuilder<> &B) {}
 };
 
 class FkExprGlobals
