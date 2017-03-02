@@ -20,6 +20,6 @@ class IncrementPtrExpr : public FkExpr
         ~IncrementPtrExpr() {}
         IncrementPtrExpr(int increment) : _increment(increment) {}
         void generate_code(llvm::Module *M, llvm::IRBuilder<> &B);
-}
+};
 
 #endif // INCPTREXPR_H

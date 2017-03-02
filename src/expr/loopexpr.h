@@ -22,6 +22,6 @@ class LoopExpr : public FkExpr
         ~LoopExpr() {}
         LoopExpr(std::vector<FkExpr *> &exprs) : _exprs(exprs) {}
         void generate_code(llvm::Module *M, llvm::IRBuilder<> &B);
-}
+};
 
 #endif // LOOPEXPR_H

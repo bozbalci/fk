@@ -17,6 +17,6 @@ class PrintExpr : public FkExpr
         ~PrintExpr() {}
         PrintExpr() {}
         void generate_code(llvm::Module *M, llvm::IRBuilder<> &B);
-}
+};
 
 #endif // PRINTEXPR_H

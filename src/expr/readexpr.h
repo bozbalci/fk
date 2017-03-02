@@ -17,6 +17,6 @@ class ReadExpr : public FkExpr
         ~ReadExpr() {}
         ReadExpr() {}
         void generate_code(llvm::Module *M, llvm::IRBuilder<> &B);
-}
+};
 
 #endif // READEXPR_H
