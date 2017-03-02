@@ -4,6 +4,7 @@
 */
 
 #include "parser.h"
+#include "tokens.h"
 #include "../expr/expr.h"
 #include "../expr/incexpr.h"
 #include "../expr/incptrexpr.h"
@@ -16,7 +17,58 @@
 void
 FkParser::parse(std::vector<FkExpr *> &exprs)
 {
-    // TODO: Implement me!
+    char c;
+
+    while ((c = _program_data[_index++]))
+    {
+        FkExpr *expr = nullptr;
+
+        switch (c)
+        {
+            case T_DEC_DATAPTR:
+                expr = new IncrementPtrExpr(-1);
+                break;
+
+            case T_INC_DATAPTR:
+                expr = new IncrementPtrExpr(1);
+                break;
+
+            case T_INC:
+                expr = new IncrementExpr(1);
+                break;
+
+            case T_DEC:
+                expr = new IncrementExpr(-1);
+                break;
+
+            case T_PRINT:
+                expr = new PrintExpr();
+                break;
+
+            case T_READ:
+                expr = new ReadExpr();
+                break;
+
+            case T_LOOP_LEFT:
+            {
+                std::vector<FkExpr *> loop_exprs;
+                parse(loop_exprs);
+                expr = new LoopExpr(loop_exprs);
+            }
+                break;
+
+            case T_LOOP_RIGHT:
+                return;
+
+            default:
+                break;
+        }
+
+        if (expr)
+        {
+            _exprs.push_back(expr);
+        }
+    }
 }
 
 void
