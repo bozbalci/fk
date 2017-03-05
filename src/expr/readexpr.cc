@@ -9,32 +9,63 @@ void
 ReadExpr::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
 {
     llvm::LLVMContext &context = M->getContext();
-    llvm::Type *GetCharArgs[] = 
-    {
-        llvm::Type::getInt32Ty(context),
-        llvm::Type::getInt32PtrTy(context)
-    };
 
     llvm::FunctionType *GetCharTy = llvm::FunctionType::get(
-        llvm::Type::getVoidTy(context),
-        GetCharArgs,
+        llvm::Type::getInt32Ty(context),
+        {}, // no arguments passed
         false // not a vararg function
     );
 
-    llvm::Function *GetCharF = llvm::cast<llvm::Function>
-        (M->getOrInsertFunction("b_getchar", GetCharTy));
+    llvm::Function *GetCharF = llvm::cast<llvm::Function>(
+        M->getOrInsertFunction("getchar", GetCharTy)
+    );
 
-    llvm::Value *Args[] = 
-    {
-        B.CreateLoad(FkExprGlobals::instance()->get_index_ptr()),
-        B.CreatePointerCast(
-            FkExprGlobals::instance()->get_cells_ptr(),
-            llvm::Type::getInt32Ty(context)->getPointerTo()
-        )
+    llvm::ArrayRef<llvm::Value *> ArgsArr({}); // no arguments passed
+
+    llvm::CallInst *GetCharCall = B.CreateCall(GetCharF, ArgsArr);
+
+    GetCharCall->setTailCall(false);
+
+    llvm::Value *GetCharResult = GetCharCall;
+
+    /*
+     * Usually, the returned value of i32 @getchar() is truncated
+     * to i8 using an IR directive, for example
+     *
+     *     %4 = call i32 @getchar()
+     *     %5 = trunc i32 %4 to i8
+     *
+     * and when calling i32 @putchar(i32), a sign extension is
+     * performed, as such:
+     *
+     *     %6 = sext i8 %5 to i32
+     *     %7 = call i32 @putchar(i32 %6)
+     *
+     * However, since we are storing 32-bit integers in our cells,
+     * such truncation is not necessary. If this changes in the
+     * future, the few lines below will truncate |GetCharResult|
+     * to |TruncatedInt|.
+     *
+     * llvm::Value *TruncatedInt = B.CreateTrunc(
+     *     GetCharResult, 
+     *     llvm::Type::getInt8Ty(context)
+     * );
+    */
+
+    llvm::Value *Idxs[] = {
+        B.getInt32(0),
+        B.CreateLoad(FkExprGlobals::instance()->get_index_ptr())
     };
 
-    llvm::ArrayRef<llvm::Value *> ArgsArr(Args);
-    B.CreateCall(GetCharF, ArgsArr);
+    llvm::ArrayRef<llvm::Value *> IdxsArr(Idxs);
+
+    B.CreateStore(
+        GetCharResult,
+        B.CreateGEP(
+            FkExprGlobals::instance()->get_cells_ptr(),
+            IdxsArr
+        )
+    );
 }
 
 void
