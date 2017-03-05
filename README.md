@@ -2,6 +2,40 @@
 
 **(WIP)** A Brainfuck compiler based on LLVM.
 
+## Table of contents
+
+* [Introduction](#introduction)
+* [Planned features](#planned-features)
+* [Getting started](#getting-started)
+    * [Dependencies](#dependencies)
+    * [Building from source](#building-from-source)
+    * [Running](#running)
+* [License](#license)
+
+## Introduction
+
+fk is a Brainfuck compiler based on LLVM.
+
+Brainfuck source is compiled to LLVM Intermediate Representation, which is then compiled and linked to binary objects.
+
+## Planned features
+
+* Report syntax errors and warnings
+    * unmatched brackets
+    * cell pointer out of bounds
+* Peephole optimizations
+    * combine successive increments/decrements
+    * simplify [-] loop, set the cell to zero instead
+    * remove loops at the beginning of the program
+    * remove successive loops
+    * skip loops at known zeroes
+    * remove increments/decrements overwritten by `,`
+* Cell usage analysis
+    * determine how many cells a Brainfuck program requires
+    * don't allocate/zero-initialize more cells than needed
+* Compile-time evaluation
+    * input-independent evaluations may be performed at compile time
+
 ## Getting started
 
 ### Dependencies
