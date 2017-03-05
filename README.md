@@ -14,22 +14,18 @@
 
 Please [report any problems](https://github.com/bozbalci/fk/issues/new) you run into when building the project.
 
-    ~~~ sh
     $ git clone https://github.com/bozbalci/fk
     $ mkdir fk/build
     $ cd fk/build
     $ cmake ..
     $ sudo make install
-    ~~~
 
 ### Running
 
 Currently, fk cannot create and link objects, but you can run Brainfuck scripts directly using the `fk` command:
 
-    ~~~ sh
     $ fk hello.b
     Hello, World!
-    ~~~
 
 ## License
 
