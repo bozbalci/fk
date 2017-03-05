@@ -65,7 +65,7 @@ FkExprGlobals::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
 
         llvm::Constant *InitPtr = llvm::ConstantArray::get(ArrTy, Constants);
 
-        FkExprGlobals::__fk_index_ptr = new llvm::GlobalVariable(*M, ArrTy,
+        FkExprGlobals::__fk_cells_ptr = new llvm::GlobalVariable(*M, ArrTy,
             false, llvm::GlobalValue::WeakAnyLinkage, InitPtr, "fk.cells");
     }
 }

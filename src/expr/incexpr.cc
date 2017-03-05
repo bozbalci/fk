@@ -12,7 +12,7 @@ IncrementExpr::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
     {
         B.getInt32(0),
         B.CreateLoad(FkExprGlobals::instance()->get_index_ptr())
-    }
+    };
 
     llvm::ArrayRef<llvm::Value *> IdxsArr(Idxs);
 
