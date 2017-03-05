@@ -20,11 +20,11 @@ class FkParser
         std::string _program_data;
         int _index;
         std::vector<FkExpr *> _exprs;
-        void parse(std::vector<FkExpr *> &exprs);
+        void parse(std::vector<FkExpr *> &exprs, int level);
 
     public:
         FkParser(std::string source) :
-            _program_data(source), _index(0) { parse(_exprs); }
+            _program_data(source), _index(0) { parse(_exprs, 0); }
 
         void generate_code(llvm::Module *M, llvm::IRBuilder<> &B);
         void debug_description(int level);

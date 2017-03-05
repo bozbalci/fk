@@ -15,7 +15,7 @@
 #include <vector>
 
 void
-FkParser::parse(std::vector<FkExpr *> &exprs)
+FkParser::parse(std::vector<FkExpr *> &exprs, int level)
 {
     char c;
 
@@ -52,13 +52,20 @@ FkParser::parse(std::vector<FkExpr *> &exprs)
             case T_LOOP_LEFT:
             {
                 std::vector<FkExpr *> loop_exprs;
-                parse(loop_exprs);
+                parse(loop_exprs, level + 1);
                 expr = new LoopExpr(loop_exprs);
-            }
                 break;
+            }
 
             case T_LOOP_RIGHT:
-                return;
+            {
+                if (level > 0)
+                {
+                    return;
+                }
+
+                break;
+            }
 
             default:
                 break;
@@ -66,7 +73,7 @@ FkParser::parse(std::vector<FkExpr *> &exprs)
 
         if (expr)
         {
-            _exprs.push_back(expr);
+            exprs.push_back(expr);
         }
     }
 }
