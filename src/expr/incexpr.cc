@@ -8,8 +8,7 @@
 void
 IncrementExpr::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
 {
-    llvm::Value *Idxs[] =
-    {
+    llvm::Value *Idxs[] = {
         B.getInt32(0),
         B.CreateLoad(FkExprGlobals::instance()->get_index_ptr())
     };

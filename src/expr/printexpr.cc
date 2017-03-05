@@ -10,8 +10,7 @@ PrintExpr::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
 {
     llvm::LLVMContext &context = M->getContext();
 
-    llvm::Type *PutCharArgs[] = 
-    {
+    llvm::Type *PutCharArgs[] = {
         llvm::Type::getInt32Ty(context)
     };
 
@@ -25,8 +24,7 @@ PrintExpr::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
         M->getOrInsertFunction("putchar", PutCharTy)
     );
 
-    llvm::Value *Args[] = 
-    {
+    llvm::Value *Args[] = {
         B.CreateLoad(
             B.CreateGEP(
                 B.CreatePointerCast(
