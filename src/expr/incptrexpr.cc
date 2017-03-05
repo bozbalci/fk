@@ -8,7 +8,17 @@
 void
 IncrementPtrExpr::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
 {
-    // TODO: Implement me!
+    llvm::Value *IdxV = B.CreateLoad(
+        FkExprGlobals::instance()->get_index_ptr()
+    );
+
+    B.CreateStore(
+        B.CreateAdd(
+            IdxV,
+            B.getInt32(_increment)
+        ),
+        FkExprGlobals::instance()->get_index_ptr()
+    );
 }
 
 void
