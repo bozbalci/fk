@@ -22,7 +22,7 @@ Please [report any problems](https://github.com/bozbalci/fk/issues/new) you run 
 
 ### Running
 
-Currently, fk cannot create and link objects, but you can run Brainfuck scripts directly using the `fk` command:
+Currently, fk cannot create and link objects, but you can run Brainfuck programs directly using the `fk` command:
 
     $ fk hello.b
     Hello, World!
