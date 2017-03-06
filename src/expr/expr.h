@@ -27,6 +27,8 @@ class FkExprGlobals
         static FkExprGlobals *_instance;
         static llvm::GlobalVariable *__fk_index_ptr;
         static llvm::GlobalVariable *__fk_cells_ptr;
+        static llvm::Function *__fk_putchar_func;
+        static llvm::Function *__fk_getchar_func;
 
     public:
         FkExprGlobals(FkExprGlobals const&) = delete;
@@ -37,6 +39,8 @@ class FkExprGlobals
 
         llvm::GlobalVariable* get_index_ptr();
         llvm::GlobalVariable* get_cells_ptr();
+        llvm::Function *get_putchar_func();
+        llvm::Function *get_getchar_func();
 };
 
 #endif // EXPR_H

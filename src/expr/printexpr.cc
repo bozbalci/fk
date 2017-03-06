@@ -10,20 +10,6 @@ PrintExpr::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
 {
     llvm::LLVMContext &context = M->getContext();
 
-    llvm::Type *PutCharArgs[] = {
-        llvm::Type::getInt32Ty(context)
-    };
-
-    llvm::FunctionType *PutCharTy = llvm::FunctionType::get(
-        llvm::Type::getInt32Ty(context),
-        PutCharArgs,
-        false // not a vararg function
-    );
-
-    llvm::Function *PutCharF = llvm::cast<llvm::Function>(
-        M->getOrInsertFunction("putchar", PutCharTy)
-    );
-
     llvm::Value *Args[] = {
         B.CreateLoad(
             B.CreateGEP(
@@ -40,7 +26,10 @@ PrintExpr::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
 
     llvm::ArrayRef<llvm::Value *> ArgsArr(Args);
 
-    B.CreateCall(PutCharF, ArgsArr);
+    B.CreateCall(
+        FkExprGlobals::instance()->get_putchar_func(),
+        ArgsArr
+    );
 }
 
 void

@@ -8,21 +8,12 @@
 void
 ReadExpr::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
 {
-    llvm::LLVMContext &context = M->getContext();
-
-    llvm::FunctionType *GetCharTy = llvm::FunctionType::get(
-        llvm::Type::getInt32Ty(context),
-        {}, // no arguments passed
-        false // not a vararg function
-    );
-
-    llvm::Function *GetCharF = llvm::cast<llvm::Function>(
-        M->getOrInsertFunction("getchar", GetCharTy)
-    );
-
     llvm::ArrayRef<llvm::Value *> ArgsArr({}); // no arguments passed
 
-    llvm::CallInst *GetCharCall = B.CreateCall(GetCharF, ArgsArr);
+    llvm::CallInst *GetCharCall = B.CreateCall(
+        FkExprGlobals::instance()->get_getchar_func(),
+        ArgsArr
+    );
 
     GetCharCall->setTailCall(false);
 
@@ -48,13 +39,15 @@ ReadExpr::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
      *
      * llvm::Value *TruncatedInt = B.CreateTrunc(
      *     GetCharResult, 
-     *     llvm::Type::getInt8Ty(context)
+     *     llvm::Type::getInt8Ty(ontext)
      * );
     */
 
     llvm::Value *Idxs[] = {
         B.getInt32(0),
-        B.CreateLoad(FkExprGlobals::instance()->get_index_ptr())
+        B.CreateLoad(
+            FkExprGlobals::instance()->get_index_ptr()
+        )
     };
 
     llvm::ArrayRef<llvm::Value *> IdxsArr(Idxs);

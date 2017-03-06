@@ -10,6 +10,8 @@
 FkExprGlobals *FkExprGlobals::_instance = nullptr;
 llvm::GlobalVariable *FkExprGlobals::__fk_index_ptr = nullptr;
 llvm::GlobalVariable *FkExprGlobals::__fk_cells_ptr = nullptr;
+llvm::Function *FkExprGlobals::__fk_putchar_func = nullptr;
+llvm::Function *FkExprGlobals::__fk_getchar_func = nullptr;
 
 FkExprGlobals*
 FkExprGlobals::instance()
@@ -32,6 +34,18 @@ llvm::GlobalVariable*
 FkExprGlobals::get_cells_ptr()
 {
     return __fk_cells_ptr;
+}
+
+llvm::Function*
+FkExprGlobals::get_putchar_func()
+{
+    return __fk_putchar_func;
+}
+
+llvm::Function*
+FkExprGlobals::get_getchar_func()
+{
+    return __fk_getchar_func;
 }
 
 void
@@ -67,5 +81,35 @@ FkExprGlobals::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
 
         FkExprGlobals::__fk_cells_ptr = new llvm::GlobalVariable(*M, ArrTy,
             false, llvm::GlobalValue::WeakAnyLinkage, InitPtr, "fk.cells");
+    }
+
+    if (!__fk_putchar_func)
+    {
+        llvm::Type *PutCharArgs[] = {
+            llvm::Type::getInt32Ty(context)
+        };
+
+        llvm::FunctionType *PutCharTy = llvm::FunctionType::get(
+            llvm::Type::getInt32Ty(context),
+            PutCharArgs,
+            false // not a vararg function
+        );
+
+        FkExprGlobals::__fk_putchar_func = llvm::cast<llvm::Function>(
+            M->getOrInsertFunction("putchar", PutCharTy)
+        );
+    }
+    
+    if (!__fk_getchar_func)
+    {
+        llvm::FunctionType *GetCharTy = llvm::FunctionType::get(
+            llvm::Type::getInt32Ty(context),
+            {}, // no arguments passed
+            false // not a vararg function
+        );
+
+        FkExprGlobals::__fk_getchar_func = llvm::cast<llvm::Function>(
+            M->getOrInsertFunction("getchar", GetCharTy)
+        );
     }
 }
