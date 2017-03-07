@@ -70,9 +70,9 @@ FkExprGlobals::generate_code(llvm::Module *M, llvm::IRBuilder<> &B)
         // TODO: Change the constant 100 to a number retrieved from
         // command-line arguments.
         llvm::ArrayType *ArrTy = llvm::ArrayType::get(
-            llvm::Type::getInt32Ty(context), 100);
+            llvm::Type::getInt32Ty(context), 30000);
 
-        std::vector<llvm::Constant *> constants(100, B.getInt32(0));
+        std::vector<llvm::Constant *> constants(30000, B.getInt32(0));
 
         llvm::ArrayRef<llvm::Constant *> Constants =
             llvm::ArrayRef<llvm::Constant *>(constants);
